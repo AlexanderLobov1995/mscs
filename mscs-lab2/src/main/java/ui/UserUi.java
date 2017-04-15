@@ -46,14 +46,14 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
     private JComboBox usernameRemove;
     private JButton remove;
 
-    private JComboBox usernameCreate;
+    private JLabel createLabel;
+    private JTextField usernameCreate;
     private JTextField rights;
     private JButton create;
 
     private int currentFromUser = 0;
     private int currentToUser = 0;
     private int currentUsernameRemove = 0;
-    private int currentUsernameCreate = 0;
 
     List<List<String>> mtx = null;
 
@@ -91,7 +91,8 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
         usernameRemove = new JComboBox();
         remove = new JButton("Remove");
 
-        usernameCreate = new JComboBox();
+        createLabel = new JLabel("Type the new User");
+        usernameCreate = new JTextField(10);
         rights = new JTextField(15);
         create = new JButton("Create");
 
@@ -125,6 +126,7 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
         takeGrant3.add(usernameRemove);
         takeGrant3.add(remove);
 
+        takeGrant4.add(createLabel);
         takeGrant4.add(usernameCreate);
         takeGrant4.add(rights);
         takeGrant4.add(create);
@@ -218,7 +220,8 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
         if (e.getSource() == create) {
 
             if (mtx.size() > 1) {
-                service.create(currentUsernameCreate, Arrays.asList(rights.getText().split(",")));
+                service.create(usernameCreate.getText(), Arrays.asList(rights.getText().split(",")));
+                tableModel.addRow(mtx.get(mtx.size() - 1).toArray());
                 updateTable();
                 updateBox();
                 JOptionPane.showMessageDialog(null, "Successfully");
@@ -251,10 +254,6 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
             currentUsernameRemove = usernameRemove.getSelectedIndex();
         }
 
-        if (e.getSource() == usernameCreate) {
-            currentUsernameCreate = usernameCreate.getSelectedIndex();
-        }
-
     }
 
     @Override
@@ -278,12 +277,7 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
         int exCount = mtx.get(0).size() - tableModel.getColumnCount();
 
         for (int extension = 0; extension < exCount; extension++) {
-            for (int indexUser = 0; indexUser < mtx.size(); indexUser++) {
-                for (int indexColumn = tableModel.getColumnCount(); indexColumn < mtx.get(indexUser).size(); indexColumn++) {
-                    exData.add(mtx.get(indexUser).get(indexColumn));
-                }
-            }
-            tableModel.addColumn(exData);
+            tableModel.addColumn("");
             exData.clear();
         }
 
@@ -299,7 +293,6 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
         toUser.removeAllItems();
         fromUser.removeAllItems();
         usernameRemove.removeAllItems();
-        usernameCreate.removeAllItems();
         checkBoxMenu.removeAll();
         checkedList.clear();
         checkBoxList.clear();
@@ -308,7 +301,6 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
             fromUser.addItem(mtx.get(i).get(0));
             toUser.addItem(mtx.get(i).get(0));
             usernameRemove.addItem(mtx.get(i).get(0));
-            usernameCreate.addItem(mtx.get(i).get(0));
         }
         for (int i = 1; i < mtx.get(0).size(); i++) {
             JCheckBox checkBox = new JCheckBox(mtx.get(0).get(i));

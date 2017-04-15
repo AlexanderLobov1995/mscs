@@ -4,7 +4,6 @@ import matrix.AccessMatrix;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class Service {
 
@@ -69,27 +68,33 @@ public class Service {
         getAccessMatrix().writeToFile();
     }
 
-    public void create(int currentUsernameCreate, List<String> rights) {
+    public void create(String currentUsernameCreate, List<String> rights) {
 
         List<String> rightList = new LinkedList<>(rights);
         List<List<String>> mtx = getAccessMatrix().getMtx();
-        List<String> currentUser = mtx.get(currentUsernameCreate + 1);
-        List<String> columnNames = mtx.get(0);
+        List<String> newUser = new LinkedList<>();
+
+        newUser.add(currentUsernameCreate);
+        for (int column=1; column< mtx.get(0).size();column++) {
+            newUser.add("-");
+        }
+
+        mtx.add(newUser);
 
         for (String right : rights) {
 
-            for (int i = 1; i < columnNames.size(); i++) {
-                if (right.equalsIgnoreCase(columnNames.get(i))) {
-                    currentUser.set(i, "+");
+            for (int i = 1; i < mtx.get(0).size(); i++) {
+                if (right.equalsIgnoreCase(mtx.get(0).get(i))) {
+                    newUser.set(i, "+");
                     rightList.remove(right);
                 }
             }
         }
 
         for (int i = 0; i < rightList.size(); i++) {
-            columnNames.add(rightList.get(i));
+            mtx.get(0).add(rightList.get(i));
             for (int indexUser = 1; indexUser < mtx.size(); indexUser++) {
-                if (mtx.get(indexUser).get(0).equalsIgnoreCase(currentUser.get(0))) {
+                if (mtx.get(indexUser).get(0).equalsIgnoreCase(newUser.get(0))) {
                     mtx.get(indexUser).add("+");
                 } else {
                     mtx.get(indexUser).add("-");
