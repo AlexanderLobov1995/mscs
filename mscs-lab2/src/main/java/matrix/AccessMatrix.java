@@ -13,6 +13,7 @@ public class AccessMatrix {
     private int row = 4;
     private int col = 7;
 
+
     private List<List<String>> mtx = new LinkedList<List<String>>();
 
     List<String> chars = null;
@@ -130,5 +131,13 @@ public class AccessMatrix {
     public void update(int row, int col, String value) {
         this.mtx.get(row).set(col, value);
         writeToFile();
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
     }
 }

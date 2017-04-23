@@ -1,5 +1,4 @@
-Matrix q w e r t y 
-Sasha + - + - + - 
-Denis - + - + - + 
-Nikita - - + + + - 
-Alex + - - - - - 
+Matrix q w e r t u i o p y 
+Sasha + - + - + - - - - - 
+Ron - - - - - + + + + + 
+Alex - + - + - - + - - -

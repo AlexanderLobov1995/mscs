@@ -102,6 +102,8 @@ public class Service {
             }
         }
 
+        accessMatrix.setCol(mtx.get(0).size());
+        accessMatrix.setRow(mtx.size());
         getAccessMatrix().writeToFile();
     }
 

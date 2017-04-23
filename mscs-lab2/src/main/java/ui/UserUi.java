@@ -263,11 +263,10 @@ public class UserUi extends JFrame implements ActionListener, TableModelListener
         if ((row >= 0 && col >= 0) && service.getAccessMatrix().getMtx().size() != row) {
             String value = (String) table.getValueAt(row, col);
             service.getAccessMatrix().update(row, col, value);
-
-            updateBox();
-
-            ui.showDataUi();
         }
+        updateBox();
+
+        ui.showDataUi();
     }
 
     private void updateTable() {
